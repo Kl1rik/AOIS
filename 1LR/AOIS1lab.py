@@ -1,7 +1,10 @@
 from functools import reduce
 import struct
+
 def intToBin32(i):
     return (bin(((1 << 32) - 1) & i)[2:]).zfill(32)
+
+    
 
 def iterationCounter(i):
     count = 0
@@ -33,14 +36,13 @@ def intFloatPointtoBin(i):
 
     return format(struct.unpack('!I', struct.pack('!f', i))[0], '032b')
 
-
 def sumBinaryNumbers( firstBinaryNumber, secondBinaryNumber):
     remainingBit = 0
     binaryNumberResult = []
     if len(firstBinaryNumber) > len(secondBinaryNumber):
-        secondBinaryNumber[len(firstBinaryNumber)] == 0
+        secondBinaryNumber[len(firstBinaryNumber)] = 0
     elif len(firstBinaryNumber) < len(secondBinaryNumber):
-        firstBinaryNumber[len(secondBinaryNumber)] == 0
+        firstBinaryNumber[len(secondBinaryNumber)] = 0
     firstBinaryNumber = list(reversed(firstBinaryNumber))
     secondBinaryNumber = list(reversed(secondBinaryNumber))
     for bits in range(len(firstBinaryNumber)):
@@ -70,6 +72,87 @@ def sumBinaryNumbers( firstBinaryNumber, secondBinaryNumber):
     binaryNumberResult = list(reversed(binaryNumberResult))    
     return binaryNumberResult   
 
+def intToBin32SW(n):
+    if n > 0:
+        flag = 0
+    elif n < 0:
+        flag = 1
+   
+    n = str(n)    
+    n = n.replace("-","")
+    n = int(n)
+    print(n)
+    bin = []
+   
+    while n > 0:
+        bin.append(n % 2)
+        n //= 2
+    bin.reverse()
+    l = len(bin) -1 
+    if flag == 0:
+        addition_to_32_bit = (32 - len(bin)) * [0]
+        bin = addition_to_32_bit + bin
+    elif flag == 1:
+        
+        for bits in range(len(bin)):
+            if bin[bits] == 0:
+                bin[bits] = 1
+            elif bin[bits] == 1:
+                bin[bits] = 0
+
+        if bin[l] == 0:        
+            one = [0]*(len(bin) - 1) + [1]
+            bin = sumBinaryNumbers(bin,one)    
+        addition_to_32_bit = (32 - len(bin)) * [1]
+        bin = addition_to_32_bit + bin    
+    return bin
+def intToBinSW(n):
+    if n > 0:
+        flag = 0
+    elif n < 0:
+        flag = 1
+   
+    n = str(n)    
+    n = n.replace("-","")
+    n = int(n)
+    print(n)
+    bin = []
+   
+    while n > 0:
+        bin.append(n % 2)
+        n //= 2
+    bin.reverse()
+    l = len(bin) -1 
+    if flag == 0:
+        addition_sign_bit =  [0]
+        bin = addition_sign_bit + bin
+    elif flag == 1:
+        
+        for bits in range(len(bin)):
+            if bin[bits] == 0:
+                bin[bits] = 1
+            elif bin[bits] == 1:
+                bin[bits] = 0
+
+        if bin[l] == 0:        
+            one = [0]*(len(bin) - 1) + [1]
+            bin = sumBinaryNumbers(bin,one)    
+        addition_sign_bit =  [1]
+        bin = addition_sign_bit + bin    
+    return bin
+def intFloatPointtoBinSW(i):
+    str_i = str(i)
+    list_i = str_i.split(".")
+    a = list_i[0] 
+    b = list_i[1]
+    b = int(b)
+    a = int(a)
+    a = intToBinSW(a)
+    b = intToBinSW(b)
+    two_binary = [0]*(len(b) - 2) + [1,0]
+    b = divideBinaryNumbers(b,two_binary)
+    res = [a,b]
+    return res   
 def multiplicationBinaryNumbers(firstBinaryNumber,secondBinaryNumber,counter):
 
     buffer = [[0]*counter for i in range(counter)]
@@ -222,8 +305,6 @@ def menu():
             c = float(input())
             print("Введите второе  вещественное  число :")
             d = float(input())
-            decimal_prog_res = float(c+d)
-            decimal_prog_res = intFloatPointtoBin(decimal_prog_res)
             c1 = intFloatPointtoBin(c)
             d1 = intFloatPointtoBin(d)
             print(intFloatPointtoBin(c))
@@ -238,11 +319,29 @@ def menu():
             print(res[0])
             result = [0] + res[0] + [0] + res[1]
             result = str(result)
-            result = list(map(int,decimal_prog_res))
+            decimal_prog_res = float(c+d)
+            print(decimal_prog_res)
+            decimal_prog_res = intFloatPointtoBin(decimal_prog_res)
             decimal_prog_res = list(map(int,decimal_prog_res))
             print("Встроенная функция")
             print(decimal_prog_res)
             print("Результат программы")
-            print(result)
-            print("Результат в представлении ЭВМ",result)
-print(menu())                 
+            print(decimal_prog_res)
+            print("Результат в представлении ЭВМ",decimal_prog_res)
+# print(menu())  
+print(intToBinSW(a))             
+print(intFloatPointtoBinSW(4.5))          
+
+
+
+
+
+
+
+                    # while abs(n) > 0:
+    #     bin = str(n % 2) + bin
+    #     n //= 2
+    #     print(bin)
+    #     
+    # else:
+    #     bin = 32 * [0]        
