@@ -3,9 +3,6 @@ import struct
 
 def intToBin32(i):
     return (bin(((1 << 32) - 1) & i)[2:]).zfill(32)
-
-    
-
 def iterationCounter(i):
     count = 0
     if abs(i) < 4 :
@@ -111,13 +108,11 @@ def intToBinSW(n):
         flag = 0
     elif n < 0:
         flag = 1
-   
     n = str(n)    
     n = n.replace("-","")
     n = int(n)
     print(n)
     bin = []
-   
     while n > 0:
         bin.append(n % 2)
         n //= 2
@@ -140,19 +135,41 @@ def intToBinSW(n):
         addition_sign_bit =  [1]
         bin = addition_sign_bit + bin    
     return bin
-def intFloatPointtoBinSW(i):
-    str_i = str(i)
-    list_i = str_i.split(".")
-    a = list_i[0] 
-    b = list_i[1]
-    b = int(b)
-    a = int(a)
-    a = intToBinSW(a)
-    b = intToBinSW(b)
-    two_binary = [0]*(len(b) - 2) + [1,0]
-    b = divideBinaryNumbers(b,two_binary)
-    res = [a,b]
-    return res   
+
+
+def intFloatPointtoBinSW(i) :
+    accurate = 8
+    binary = ""
+ 
+    Integral = int(i)
+    fractional = i - Integral
+ 
+    while (Integral) : 
+        rem = Integral % 2
+        binary += str(rem);
+        Integral //= 2
+    binary = binary[ : : -1]
+    binary += '.'
+ 
+    while (accurate) :
+        fractional *= 2
+        fract_bit = int(fractional)
+
+        if (fract_bit == 1) :
+            fractional -= fract_bit
+            binary += '1' 
+        else :
+            binary += '0'
+        accurate -= 1
+    binary = list(binary)
+    count = binary.index('.') - 1
+    exp = (intToBin32SW(count),intToBin32SW(127))
+    
+    print(count)
+    return binary
+
+
+
 def multiplicationBinaryNumbers(firstBinaryNumber,secondBinaryNumber,counter):
 
     buffer = [[0]*counter for i in range(counter)]
@@ -330,18 +347,4 @@ def menu():
             print("Результат в представлении ЭВМ",decimal_prog_res)
 # print(menu())  
 print(intToBinSW(a))             
-print(intFloatPointtoBinSW(4.5))          
-
-
-
-
-
-
-
-                    # while abs(n) > 0:
-    #     bin = str(n % 2) + bin
-    #     n //= 2
-    #     print(bin)
-    #     
-    # else:
-    #     bin = 32 * [0]        
+print(intFloatPointtoBinSW(4.537))          
