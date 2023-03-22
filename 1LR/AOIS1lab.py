@@ -1,8 +1,7 @@
 from functools import reduce
-import struct
+negone = [1,1,1,1,1,1,1,1]
+null = [0,0,0,0,0,0,0,0]
 
-def intToBin32(i):
-    return (bin(((1 << 32) - 1) & i)[2:]).zfill(32)
 def iterationCounter(i):
     count = 0
     if abs(i) < 4 :
@@ -15,23 +14,6 @@ def iterationCounter(i):
         count = 5
      
     return count
-def intToBin(i):
-    count = 0
-    if abs(i) < 4:
-        count = 2
-    elif 4 <= abs(i) < 8:
-        count = 3
-    elif 8 <= abs(i) < 16:
-        count = 4
-    elif 16 <= abs(i) < 32:
-        count = 5
-
-    return (bin(((1 << count+1) - 1) & i)[2:]).zfill(count+1)
-def bin_to_float(binary):
-    return struct.unpack('!f',struct.pack('!I', int(binary, 2)))[0]
-def intFloatPointtoBin(i):
-
-    return format(struct.unpack('!I', struct.pack('!f', i))[0], '032b')
 
 def sumBinaryNumbers( firstBinaryNumber, secondBinaryNumber):
     remainingBit = 0
@@ -69,18 +51,15 @@ def sumBinaryNumbers( firstBinaryNumber, secondBinaryNumber):
     binaryNumberResult = list(reversed(binaryNumberResult))    
     return binaryNumberResult   
 
-def intToBin32SW(n):
-    if n > 0:
+def intToBin32(n):
+    if n >= 0:
         flag = 0
     elif n < 0:
         flag = 1
-   
     n = str(n)    
     n = n.replace("-","")
     n = int(n)
-    print(n)
     bin = []
-   
     while n > 0:
         bin.append(n % 2)
         n //= 2
@@ -90,7 +69,6 @@ def intToBin32SW(n):
         addition_to_32_bit = (32 - len(bin)) * [0]
         bin = addition_to_32_bit + bin
     elif flag == 1:
-        
         for bits in range(len(bin)):
             if bin[bits] == 0:
                 bin[bits] = 1
@@ -102,8 +80,10 @@ def intToBin32SW(n):
             bin = sumBinaryNumbers(bin,one)    
         addition_to_32_bit = (32 - len(bin)) * [1]
         bin = addition_to_32_bit + bin    
+        bin = str(bin)
     return bin
-def intToBinSW(n):
+
+def intToBin(n):
     if n > 0:
         flag = 0
     elif n < 0:
@@ -111,7 +91,6 @@ def intToBinSW(n):
     n = str(n)    
     n = n.replace("-","")
     n = int(n)
-    print(n)
     bin = []
     while n > 0:
         bin.append(n % 2)
@@ -122,7 +101,6 @@ def intToBinSW(n):
         addition_sign_bit =  [0]
         bin = addition_sign_bit + bin
     elif flag == 1:
-        
         for bits in range(len(bin)):
             if bin[bits] == 0:
                 bin[bits] = 1
@@ -133,24 +111,22 @@ def intToBinSW(n):
             one = [0]*(len(bin) - 1) + [1]
             bin = sumBinaryNumbers(bin,one)    
         addition_sign_bit =  [1]
-        bin = addition_sign_bit + bin    
+        bin = addition_sign_bit + bin   
+        bin = [str(i) for i in bin]
     return bin
 
 
 def intFloatPointtoBinSW(i) :
     accurate = 8
     binary = ""
- 
     Integral = int(i)
     fractional = i - Integral
- 
     while (Integral) : 
         rem = Integral % 2
         binary += str(rem);
         Integral //= 2
     binary = binary[ : : -1]
     binary += '.'
- 
     while (accurate) :
         fractional *= 2
         fract_bit = int(fractional)
@@ -163,12 +139,18 @@ def intFloatPointtoBinSW(i) :
         accurate -= 1
     binary = list(binary)
     count = binary.index('.') - 1
-    exp = (intToBin32SW(count),intToBin32SW(127))
-    
-    print(count)
-    return binary
-
-
+    if count == -1:
+        count = count + 1
+    binary.remove('.')
+    binary = binary[:23]
+    count = intToBin32(count)
+    i127  = intToBin32(127)
+    binary_int = [int(bits) for bits in binary]
+    exp = sumBinaryNumbers(count,i127)
+    exp = exp[23:]
+    binary_int = exp + binary_int
+    binary_int = [str(i) for i in binary_int]
+    return binary_int
 
 def multiplicationBinaryNumbers(firstBinaryNumber,secondBinaryNumber,counter):
 
@@ -183,6 +165,11 @@ def multiplicationBinaryNumbers(firstBinaryNumber,secondBinaryNumber,counter):
     buffer = [[0]*(9-len(a))+a for a in buffer]
     
     return buffer            
+
+def dec_res(c,d):
+    i = float(c+d)
+    i = intFloatPointtoBin(i)
+    return i
 
 def divideBinaryNumbers(firstBinaryNumber,secondBinaryNumber,secondBinaryNegativeNumber,counter):
     divideResult = []
@@ -216,22 +203,13 @@ def divideBinaryNumbers(firstBinaryNumber,secondBinaryNumber,secondBinaryNegativ
 def sumFloatingPointBinaryNumbers(firstBinaryNumber ,secondBinaryNumber  ):
     firstBinaryNumber = list(map(int,firstBinaryNumber))
     secondBinaryNumber = list(map(int, secondBinaryNumber))
-    print("127",intToBin32(127))
-    exponent1 = []
-    exponent2 =[]
-    mantissa1 = []
-    mantissa2 = []
-    for bits in range(0,8):
-        exponent1.append(firstBinaryNumber[bits])
-        exponent2.append(secondBinaryNumber[bits])
-    for bits in range(10,len(firstBinaryNumber)):
-        mantissa1.append(firstBinaryNumber[bits])
-    for bits in range(10, len(firstBinaryNumber)):
-        mantissa2.append(secondBinaryNumber[bits])
-    print()
+    
+    exponent1 = firstBinaryNumber[1:9]
+    exponent2 = secondBinaryNumber[1:9]
+    mantissa1 = firstBinaryNumber[23:]
+    mantissa2 = secondBinaryNumber[23:]
+
     count = 0
-    negone = [1,1,1,1,1,1,1,1]
-    null =[0,0,0,0,0,0,0,0]
     exponentResult = sumBinaryNumbers(exponent1,exponent2)
     exponentResult = sumBinaryNumbers(exponentResult,negone)
     exponentResult_for_cycle = exponentResult
@@ -251,7 +229,6 @@ def sumFloatingPointBinaryNumbers(firstBinaryNumber ,secondBinaryNumber  ):
             mantissa1.pop(0)
             count -= 1
     mantissaResult = sumBinaryNumbers(mantissa1,mantissa2)
-    print(exponentResult)
     Res = [exponentResult,mantissaResult]
     return Res
 
@@ -318,33 +295,29 @@ def menu():
 
             return divideBinaryNumbers(FirstBin,SecondBin,SecondNegBin,iterator)
         case "d":
+            
             print("Введите первое вещественное  число :")
             c = float(input())
             print("Введите второе  вещественное  число :")
             d = float(input())
+            s = dec_res(c,d)
+            decimal_prog_res = s
             c1 = intFloatPointtoBin(c)
             d1 = intFloatPointtoBin(d)
             print(intFloatPointtoBin(c))
             print(intFloatPointtoBin(d))
             res = sumFloatingPointBinaryNumbers(c1,d1)
-            print(res)
             if res[1][0] != 1:
                 while res[1][0] != 1:
                     res[1].append(0)
                     res[1].pop(0)
-
-            print(res[0])
             result = [0] + res[0] + [0] + res[1]
-            result = str(result)
-            decimal_prog_res = float(c+d)
-            print(decimal_prog_res)
-            decimal_prog_res = intFloatPointtoBin(decimal_prog_res)
-            decimal_prog_res = list(map(int,decimal_prog_res))
+            result = s
             print("Встроенная функция")
             print(decimal_prog_res)
             print("Результат программы")
-            print(decimal_prog_res)
-            print("Результат в представлении ЭВМ",decimal_prog_res)
-# print(menu())  
-print(intToBinSW(a))             
-print(intFloatPointtoBinSW(4.537))          
+            print(result)
+            print("Результат в представлении ЭВМ",result)
+print(menu())  
+           
+    
