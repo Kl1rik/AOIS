@@ -118,12 +118,12 @@ def intToBin(n):
 def intFloatPointtoBin(i) :
     accurate = 24
     binary = ""
-    Integral = int(i)
-    fractional = i - Integral
-    while (Integral) : 
-        rem = Integral % 2
+    integer = int(i)
+    fractional = i - integer
+    while (integer) : 
+        rem = integer % 2
         binary += str(rem);
-        Integral //= 2
+        integer //= 2
     binary = binary[ : : -1]
     binary += '.'
     while (accurate) :
