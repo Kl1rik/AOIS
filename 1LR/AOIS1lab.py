@@ -115,9 +115,8 @@ def intToBin(n):
         bin = [str(i) for i in bin]
     return bin
 
-
-def intFloatPointtoBinSW(i) :
-    accurate = 8
+def intFloatPointtoBin(i) :
+    accurate = 24
     binary = ""
     Integral = int(i)
     fractional = i - Integral
