@@ -1,6 +1,7 @@
 from functools import reduce
 negone = [1,1,1,1,1,1,1,1]
 null = [0,0,0,0,0,0,0,0]
+add_to_32 = 32
 
 def iterationCounter(i):
     count = 0
@@ -51,14 +52,14 @@ def sumBinaryNumbers( firstBinaryNumber, secondBinaryNumber):
     binaryNumberResult = list(reversed(binaryNumberResult))    
     return binaryNumberResult   
 
-def intToBin32(n):
-    if n >= 0:
+def intToBin32(num):
+    if num >= 0:
         flag = 0
     elif n < 0:
         flag = 1
-    n = str(n)    
-    n = n.replace("-","")
-    n = int(n)
+    num = str(n)    
+    num = n.replace("-","")
+    num = int(n)
     bin = []
     while n > 0:
         bin.append(n % 2)
@@ -66,6 +67,7 @@ def intToBin32(n):
     bin.reverse()
     l = len(bin) -1 
     if flag == 0:
+
         addition_to_32_bit = (32 - len(bin)) * [0]
         bin = addition_to_32_bit + bin
     elif flag == 1:
@@ -78,19 +80,19 @@ def intToBin32(n):
         if bin[l] == 0:        
             one = [0]*(len(bin) - 1) + [1]
             bin = sumBinaryNumbers(bin,one)    
-        addition_to_32_bit = (32 - len(bin)) * [1]
+        addition_to_32_bit = (add_to_32 - len(bin)) * [1]
         bin = addition_to_32_bit + bin    
-        bin = str(bin)
+        bin = [str(i) for i in bin]
     return bin
-
-def intToBin(n):
-    if n > 0:
+i127  = intToBin32(127)
+def intToBin(num):
+    if num > 0:
         flag = 0
-    elif n < 0:
+    elif num < 0:
         flag = 1
-    n = str(n)    
-    n = n.replace("-","")
-    n = int(n)
+    num = str(n)    
+    num = n.replace("-","")
+    num = int(n)
     bin = []
     while n > 0:
         bin.append(n % 2)
@@ -122,7 +124,7 @@ def intFloatPointtoBin(i) :
     fractional = i - integer
     while (integer) : 
         rem = integer % 2
-        binary += str(rem);
+        binary += str(rem)
         integer //= 2
     binary = binary[ : : -1]
     binary += '.'
@@ -143,7 +145,7 @@ def intFloatPointtoBin(i) :
     binary.remove('.')
     binary = binary[:23]
     count = intToBin32(count)
-    i127  = intToBin32(127)
+    
     binary_int = [int(bits) for bits in binary]
     exp = sumBinaryNumbers(count,i127)
     exp = exp[23:]
@@ -310,12 +312,13 @@ def menu():
                 while res[1][0] != 1:
                     res[1].append(0)
                     res[1].pop(0)
-            result = [0] + res[0] + [0] + res[1]
+            result = [0] + res[0]  + res[1]
             result = s
             print("Встроенная функция")
             print(decimal_prog_res)
             print("Результат программы")
             print(result)
+            result = "".join(result)
             print("Результат в представлении ЭВМ",result)
 print(menu())  
            
