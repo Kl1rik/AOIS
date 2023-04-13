@@ -1,3 +1,7 @@
+import re
+AlphabetArray = "ABCDEFGHIJKLMNOPPRSQWXYZ"
+
+print(AlphabetArray)
 def pdnf(expr):
     # Split the expression into terms and remove any spaces
     terms = [term.strip() for term in expr.split('+')]
@@ -45,8 +49,8 @@ def pdnf(expr):
     return pknf_str
 
 expr = '(A~B) + (A~C~D) + (~A~B~C)'
-pknf_str = pdnf(expr)
-print(pknf_str)
+pdnf_str = pdnf(expr)
+print(pdnf_str)
 
 
 def pknf(expr):
@@ -95,6 +99,13 @@ def pknf(expr):
 
     return pknf_str
 
-expr = '(A~B) + (A~C~D) + (~A~B~C)'
+expr = '(A~B)+(A~C~D)+(~A~B~C)'
 pknf_str = pknf(expr)
 print(pknf_str)
+
+    
+def my_sknf():
+    string = '(a∧!b)∨(b∧c))'       
+    string = string.split('∧')
+    for part in string:
+        
