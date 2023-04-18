@@ -3,13 +3,6 @@ from dataclasses import dataclass
 from itertools import product
 
 
-class UnrecognisableToken(Exception):
-    pass
-
-
-class ImpossibleSolve(Exception):
-    pass
-
 
 class TokenType(Enum):
     VARIABLE = 0
@@ -45,12 +38,12 @@ class LogicalFormulaSolver:
                           TokenType.INVERSION: 0, TokenType.CONJUNCTION: 1, TokenType.DISJUNCTION: 2,
                           TokenType.IMPLICATION: 3, TokenType.EQUIVALENCE: 4}
 
-    def __init__(self, raw_formula: str):
-        self.token_list: list[Token] = []
-        self.raw_formula: str = raw_formula
-        self.variables: set[str] = set()
-        self.element: list[Token] = []
-        self.val: list[int] = []
+    def __init__(self, raw_formula):
+        self.token_list = []
+        self.raw_formula = raw_formula
+        self.variables = set()
+        self.element = []
+        self.val = []
 
     def __replace_special_syms(self):
         self.raw_formula = self.raw_formula.replace('->', '→')
@@ -68,7 +61,7 @@ class LogicalFormulaSolver:
         raw_token = ''
         for sym in self.raw_formula:
             if sym.isdigit() and len(raw_token) == 0:
-                raise UnrecognisableToken('Numbers can go only after letters')
+                print("Numbers can go only after letters")
             elif sym.isalpha() or sym.isdigit():
                 raw_token += sym
             elif sym.isspace():
@@ -81,10 +74,7 @@ class LogicalFormulaSolver:
                 new_type = self.one_sym_tokens[sym]
                 self.token_list.append(Token(new_type, sym, self.token_orders[new_type]))
             else:
-                raise UnrecognisableToken('Forbidden symbol. Logical formula contains only:\n1. Letters\n'
-                                          '2. Spaces\n'
-                                          '3. Numbers after letters\n'
-                                          '4. Logical operations symbols')
+                print("Forbidden symbol. Logical formula contains only: 1. Letters 2. Spaces 3. Numbers after letters 4. Logical operations symbols")
         if not raw_token == '':
             self.token_list.append(Token(TokenType.VARIABLE, raw_token, self.token_orders[TokenType.VARIABLE]))
             self.variables.add(raw_token)
@@ -134,7 +124,7 @@ class LogicalFormulaSolver:
     def solve_formula(self):
         self.__divide_into_tokens()
         possible_var_combs = sorted(list(product([0, 1], repeat=len(self.variables))))
-        raw_truth_table: list[FullLogicalInterpretation] = list()
+        raw_truth_table = list()
         for combo in possible_var_combs:
             logical_interpretation = dict(zip(self.variables, combo))
             raw_truth_table.append(self.__solve_for_interpretation(logical_interpretation))
