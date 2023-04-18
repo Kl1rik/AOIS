@@ -129,6 +129,7 @@ class LogicalFormulaSolver:
                 self.element.pop()
         while len(self.element) != 0:
             self.__solve_operation()
+        # print(FullLogicalInterpretation(logical_interpretation, self.val.pop()))
         return FullLogicalInterpretation(logical_interpretation, self.val.pop())
 
     def solve_formula(self):
