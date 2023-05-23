@@ -2,7 +2,7 @@
 import itertools
 from itertools import product
 
-s = '(A|B)&(!C)'
+s = '(A|B)&(C)'
 
 result =[] 
 variables = list(sorted(set([c for c in s if c.isalpha()])))
