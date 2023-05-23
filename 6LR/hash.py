@@ -49,24 +49,22 @@ def beautiful_print(table):
 size = 10
 hash_table = [[] for _ in range(size)]
 
-insert(hash_table, "graph", "ostis")
-insert(hash_table, "banana", "fruit")
-insert(hash_table, "python", "program")
-insert(hash_table, "int", "number")
-insert(hash_table, "list", "element")
-insert(hash_table, "c", "program")
+insert(hash_table, "слон", "зоология")
+insert(hash_table, "цветок", "ботаника")
+insert(hash_table, "бицепс бедра человека", "анатомия")
+insert(hash_table, "ДНК", "генетика")
+insert(hash_table, "амеба", "микробиология")
+insert(hash_table, "гриб", "микология")
+insert(hash_table, "дерево", "биология")
+print(beautiful_print(hash_table))
+
+print(get(hash_table, "ДНК"))  
+print(get(hash_table, "амеба"))  
+print(get(hash_table, "гриб")) 
+
+
+remove(hash_table, "дерево")
 
 print(beautiful_print(hash_table))
 
-print(get(hash_table, "graph"))  # Вывод: ostis
-print(get(hash_table, "banana"))  # Вывод: fruit
-print(get(hash_table, "python"))  # Вывод: program
-
-insert(hash_table, "bose", "headphone")
-print(get(hash_table, "bose"))  # Вывод: headphone
-
-remove(hash_table, "banana")
-
-print(beautiful_print(hash_table))
-
-print(get(hash_table, "banana"))  # Вызовет KeyError: 'banana'
+print(get(hash_table, "дерево"))  # Вызовет KeyError: 'дерево'
