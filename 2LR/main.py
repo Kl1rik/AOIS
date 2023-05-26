@@ -22,6 +22,7 @@ d_lf ={0:["000"] , 1:["001"] , 2:["010"] , 3:["011"] , 4:["100"] ,5:["101"],6:["
 for num, combination in enumerate(itertools.product([0, 1], repeat=len(variables))):
     values = list(combination)
     variables_dict = dict(zip(variables, values))
+    
     s = s.replace('!', ' not ').replace('&', ' and ').replace('|', ' or ')
     expression_result = eval(s, variables_dict)
     d[expression_result].append(num)

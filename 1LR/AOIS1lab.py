@@ -55,15 +55,15 @@ def sumBinaryNumbers( firstBinaryNumber, secondBinaryNumber):
 def intToBin32(num):
     if num >= 0:
         flag = 0
-    elif n < 0:
+    elif num < 0:
         flag = 1
-    num = str(n)    
-    num = n.replace("-","")
-    num = int(n)
+    num = str(num)    
+    num = num.replace("-","")
+    num = int(num)
     bin = []
-    while n > 0:
-        bin.append(n % 2)
-        n //= 2
+    while num > 0:
+        bin.append(num % 2)
+        num //= 2
     bin.reverse()
     l = len(bin) -1 
     if flag == 0:
@@ -90,13 +90,13 @@ def intToBin(num):
         flag = 0
     elif num < 0:
         flag = 1
-    num = str(n)    
-    num = n.replace("-","")
-    num = int(n)
+    num = str(num)    
+    num = num.replace("-","")
+    num = int(num)
     bin = []
-    while n > 0:
-        bin.append(n % 2)
-        n //= 2
+    while num > 0:
+        bin.append(num % 2)
+        num //= 2
     bin.reverse()
     l = len(bin) -1 
     if flag == 0:
