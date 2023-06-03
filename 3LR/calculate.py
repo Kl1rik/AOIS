@@ -17,7 +17,7 @@ def convert_into_digit_form(any_sdnf):
     temp=''
     for iterator in range(len(new_any_sdnf)):
         counter+=1
-        temp+=str(new_any_sdnf[iterator])
+        temp+=str(new_any_sdnf[iterator]) 
         if counter==3:
             counter=0
             new_any_sdnf_list.append(temp)
@@ -92,15 +92,21 @@ def quine_method(any_sdnf_list, rxnf,key):
         table.append(string_in_table)
         string_in_table = ''
 
+    
+    
     sum = 0
     counter = 0
     tempo='' 
-    for val in range(4):
+    for val in range(val):
         for i in (table):
+            if val == '2':
+                pass   
             counter += 1
             sum += int(i[val])
+           
             if i[val] == '1':
                 column = counter
+            
         counter = 0
         
             
@@ -110,7 +116,9 @@ def quine_method(any_sdnf_list, rxnf,key):
             elif key == 0:
                 tempo = ('('+implikant[column * 2 - 2] + '+' + implikant[column * 2 - 1] + ')' '*')
             else:
-                print("error",key)    
+                print("error",key)  
+        else:
+            pass          
             any_sdnf += tempo
         sum = 0
         

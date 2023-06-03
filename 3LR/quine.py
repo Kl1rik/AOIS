@@ -154,10 +154,10 @@ def main(minterms,key):
         implicant = str(implicant)    
         
     if key == 0:    
-        print("Полученная СКНФ")
+        print("Полученная МКНФ")
         new_list= '*'.join(map(str,new_list))     
     elif key == 1:
-        print("Полученная СДНФ")  
+        print("Полученная МДНФ")  
         new_list= '+'.join(map(str,new_list))    
     print(new_list)    
     

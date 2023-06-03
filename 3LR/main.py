@@ -7,7 +7,7 @@ from quine import main as calculate_tabular
 from kmap import k_map 
 # s = '(!A∨B)∧C'
 # s = '(A∨!B)∧(!C)'
-s = '(A∨!B)∧C'
+s = '(A∨B)∧C'
 '''Код из 2ЛР,необходим для получения СКНФ СДНФ'''
 result =[] 
 
@@ -22,7 +22,8 @@ sknf = []
 sdnf = []
 k = ""
 k1 = "" 
-n = ['!', '']
+n_sdnf = ['!', '']
+n_sknf = ['', '!']
 d = {0: [], 1: []}
 d_lf ={0:["0 0 0"] , 1:["0 0 1"] , 2:["0 1 0"] , 3:["0 1 1"] , 4:["1 0 0"] ,5:["1 0 1"],6:["1 1 0"],7:["1 1 1"]}
 
@@ -36,9 +37,9 @@ for num, combination in enumerate(itertools.product([0, 1], repeat=len(variables
     expression_result = eval(s, variables_dict)
     d[expression_result].append(num)
     if expression_result == 0:
-        sknf.append(f"{n[values[0]]}A+{n[values[1]]}B+{n[values[2]]}C")
+        sknf.append(f"{n_sknf[values[0]]}A+{n_sknf[values[1]]}B+{n_sknf[values[2]]}C")
     if expression_result == 1:
-        sdnf.append(f"{n[values[0]]}A*{n[values[1]]}B*{n[values[2]]}C")
+        sdnf.append(f"{n_sdnf[values[0]]}A*{n_sdnf[values[1]]}B*{n_sdnf[values[2]]}C")
     # print(values, expression_result)
  
 print("Получаем СДНФ и СКНФ с помощью ЛР2")   
@@ -68,27 +69,37 @@ def kmap_method(k,k1):
         mt0 = d.get(0)
     
     if nfinp==3:
-        k =  k_map(mt0,mima,0)
-        k1 = k_map(mt1,mima,1)
+        print("МКНФ")
+        k =  k_map(mt0,mima,1)
+        print("МДНФ")
+        k1 = k_map(mt1,mima,0)
     print()    
     return k,k1
     
 k,k1 = kmap_method(k,k1)    
 
 print("Метод с помощью Квайна Макласски")
-calculate_tabular(minterms= d.get(0),key=0,)
-calculate_tabular(minterms = d.get(1),key=1)
+print("МДНФ")
+calculate_tabular(minterms= d.get(1),key=1,)
+print("МКНФ")
+calculate_tabular(minterms = d.get(0),key=0)
 
 print("Методом склеивания")
 
-sknf_edit,sknf_list = convert(sknf)
+sdnf_edit,sdnf_list = convert(sdnf)
+rdnf = reduced_dnf(sdnf_edit)
 
+sknf_edit,sknf_list = convert(sknf)
 
 rknf = reduced_dnf(sknf_edit)
 
-result = quine_method(sknf_list,rknf,key_sknf)
 
+
+result = quine_method(sdnf_list,rdnf,key_sdnf)
+print("МДНФ")
 result = k
 print(result)
+print("МКНФ")
+result = quine_method(sknf_list,rknf,key_sknf)
 result = k1
 print(result)
