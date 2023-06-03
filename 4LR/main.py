@@ -183,6 +183,7 @@ def solve_bcd():
         
         expression_result = sumBinaryNumbers(values_bcd,nine)
         matrix.append(expression_result)
+        
         print(values_bcd,expression_result)
         
     print('*'.join(sknf))
@@ -238,5 +239,6 @@ def solve_bcd():
 
 solve_summator(dictionary,b_dictionary)
 '''         Задание 2           '''
-print("Получим минимизироанные функции для преобразователя 8421(BCD) кодов")
+print("Получим минимизированные функции для преобразователя 8421(BCD) кодов")
+print(" x1 x2 x3 x4  y1 y2 y3 y4")
 solve_bcd()
