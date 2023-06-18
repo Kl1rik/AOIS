@@ -3,6 +3,7 @@ non_2 = '!q2'
 non_q3 = '!q3'
 non_q4 = '!q4'
 non_v = '!q5'
+pattern = '_0001'
 def compare_string(string1, string2):
 
     l1 = list(string1)
@@ -126,12 +127,14 @@ def main(minterms,key,second_key):
     
 
     prime_implicants = check(binary)
-    
+
     if second_key == 2:
-        prime_implicants_list = []
-        prime_implicants_part = prime_implicants[2].replace('_0','__')
-        prime_implicants_list.append(prime_implicants_part)
-        prime_implicants = prime_implicants_list
+        for element in prime_implicants:
+            if element == pattern:
+                prime_implicants_list = []
+                prime_implicants_part = element.replace('_0','__')
+                prime_implicants_list.append(prime_implicants_part)
+                prime_implicants = prime_implicants_list
         
     print("Полученные импликанты в численном виде:")
     print(prime_implicants)
