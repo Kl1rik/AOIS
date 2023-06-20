@@ -4,12 +4,12 @@ from typing import List
 
 task_list = [
     "Выберите действие :",
-    "1 -- поиск по соответствию",
-    "2 -- преобразование в диагональную",
-    "3 -- преобразование в прямую",
-    "4 -- логические операции",
-    "5 -- сумма цифр",
-    "6 -- Чтение или запись столбца"
+    "1 - поиск по соответствию",
+    "2 - преобразование в диагональную",
+    "3 - преобразование в прямую",
+    "4 - логические операции",
+    "5 - сумма цифр",
+    "6 - Чтение или запись столбца"
 ]
 
 BIT_SIZE = 16
@@ -24,7 +24,7 @@ def find_l(prev_g:int, prev_l:int, digit_a:int, digit_S:int) ->int:
     return l
 
  
-def sum_or_diff_nums(num1 :int, num2 :int) ->List:  # Сумма/разность чисел
+def sum_or_diff_nums(num1 :int, num2 :int) ->List: 
     summ = ""
     carry = 0
     for i in reversed(range(0, len(num1))):
@@ -106,10 +106,10 @@ class Associative_memory_solver:
     def logic_operations(self):
         type_list = [
             "Выберите тип операции:",
-            "1 -- константа 1",
-            "2 -- константа 0",
-            "3 -- Новый аргумент",
-            "4 -- Отрицание нового аргумента"
+            "1 - константа 1",
+            "2 - константа 0",
+            "3 - Новый аргумент",
+            "4 - Отрицание нового аргумента"
         ]
         print("\n".join(type_list))
         type_of_operations = int(input())
@@ -164,7 +164,7 @@ class Associative_memory_solver:
    
 
     def sum_of_fields(self):
-        example_data = input("Введите данные : ")[:3]
+        example_data = input("Введите слово ")[:3]
         diagonal_data = self.diagonal
         if diagonal_data is True:
             self.convert_to_straight(0)
@@ -184,7 +184,7 @@ class Associative_memory_solver:
                     tick += 1
         if self.diagonal is True:
             for digit, value_of_digit in enumerate(data[num_of_string:]):
-                pos_of_break = digit  # Каждый раз помечаем позицию, чтобы запомнить её в случае, если мы дойдем до конца слова
+                pos_of_break = digit 
                 if value_of_digit == str(matrix_string[digit]):
                     tick += 1
             for digit, value_of_digit in enumerate(data[:num_of_string]):
@@ -194,10 +194,10 @@ class Associative_memory_solver:
 
     def read_write_operations (self):
         menu_options = [
-            "1 -- Чтение слова",
-            "2 -- Чтение столбца",
-            "3 -- Запись слова",
-            "4 -- Запись столбца"
+            "1 - Чтение слова",
+            "2 - Чтение столбца",
+            "3 - Запись слова",
+            "4 - Запись столбца"
         ]
 
         print("Выберите задачу:")
