@@ -188,7 +188,7 @@ class AssociativeMemorySolver:
             self.convert_to_straight(0)
         for str_number, string in enumerate(self.matrix):
             if np.array2string(string, separator='')[1:-1].replace(' ', '')[:3] == example_data:
-                self.matrix[str_number][11:16] = Associative_memory_solver.sum_or_diff_nums(
+                self.matrix[str_number][11:16] = AssociativeMemorySolver.sum_or_diff_nums(
                     self.matrix[str_number][3:7], self.matrix[str_number][7:11])
             if self.diagonal:
                 self.convert_to_diagonal(0)
@@ -237,13 +237,13 @@ class AssociativeMemorySolver:
             self.convert_to_diagonal(0)
 
 
-    def read_write_operations(ams_solver: AssociativeMemorySolver) -> None:
+def read_write_operations(ams_solver: AssociativeMemorySolver) -> None:
         print('\n'.join(["Выберите задачу:", "0 - Чтение слова", "1 - Запись слова"]))
         if int(input()):
             ams_solver.write_word()
         else:
             ams_solver.read_word()
-
+    
 def choosing_task(ams_solver: AssociativeMemorySolver, matrix) -> None:
 
     task_list = (
