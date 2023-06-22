@@ -58,7 +58,7 @@ def get_second_item(item):
     return item[1]
 
 
-class AssociativeMemorySolver:
+class Associative_memory_solver:
 
     def __init__(self, data: List, address: int):
         self.matrix = data
@@ -68,41 +68,41 @@ class AssociativeMemorySolver:
 
     def search_pattern(self) -> None:
         self.g = self.l = 0
-        tick_of_matching = {}
+        matching_counter = {}
         print("Введите строку(0,1): ")
-        example_data = input()
-        for literal in example_data:
+        example_input_data = input()
+        for literal in example_input_data:
             if literal not in ('0', '1'):
                 print("Ошибка. Неверные данные")
                 return
 
-        if len(example_data) > BIT_SIZE:
-            example_data = example_data[0:BIT_SIZE]
-        elif len(example_data) < BIT_SIZE:
-            example_data = example_data.zfill(BIT_SIZE)
+        if len(example_input_data) > BIT_SIZE:
+            example_input_data = example_input_data[0:BIT_SIZE]
+        elif len(example_input_data) < BIT_SIZE:
+            example_input_data = example_input_data.zfill(BIT_SIZE)
 
         print("Строка для поиска по соотвествию :")
-        print(example_data)
+        print(example_input_data)
 
-        matrix_copy, diagonal_data = deepcopy(self.matrix), self.diagonal
+        copy_of_matrix, diagonal = deepcopy(self.matrix), self.diagonal
 
-        if diagonal_data:
-            self.convert_to_straight(0)
+        if diagonal:
+            self.to_straight(0)
 
         for num in range(self.matrix.shape[0]):
-            tick_of_matching[f"{self.matrix[num]}"] = self.algorithm_of_accordance(matrix_copy[num], example_data, num)
+            matching_counter[f"{self.matrix[num]}"] = self.algorithm_of_accordance(copy_of_matrix[num], example_input_data, num)
 
-        if diagonal_data:
-            self.convert_to_diagonal(0)
+        if diagonal:
+            self.to_diagonal(0)
             
         print("Строки с максимальным совпадением символов :")
-        print(sorted(tick_of_matching.items(), key=get_second_item)[-3:])
+        print(sorted(matching_counter.items(), key=get_second_item)[-3:])
 
-    def convert_to_straight(self, key: int = 0) -> None:
+    def to_straight(self, key: int = 0) -> None:
 
-        matrix_copy = deepcopy(self.matrix)
+        copy_of_matrix = deepcopy(self.matrix)
         self.matrix = []
-        for str_number, string in enumerate(matrix_copy):
+        for str_number, string in enumerate(copy_of_matrix):
             string = list(string)
             self.matrix.append(string[str_number:] + string[:str_number])
 
@@ -111,10 +111,10 @@ class AssociativeMemorySolver:
         if key:
             print(self.matrix)
         
-    def convert_to_diagonal(self, key: int) -> None:
-        matrix_copy = deepcopy(self.matrix)
+    def to_diagonal(self, key: int) -> None:
+        copy_of_matrix = deepcopy(self.matrix)
         self.matrix = []
-        for str_number, string in enumerate(matrix_copy):
+        for str_number, string in enumerate(copy_of_matrix):
             string = list(string)
             self.matrix.append(string[(len(string) - str_number):] + string[:(len(string) - str_number)])
         self.matrix = np.array(self.matrix)
@@ -122,7 +122,7 @@ class AssociativeMemorySolver:
         if key:
             print(self.matrix)
 
-    def logic_operations(self) -> None:
+    def log_constants_operations(self) -> None:
         type_list = [
             "Выберите тип операции:",
             "1 - константа 1",
@@ -133,65 +133,65 @@ class AssociativeMemorySolver:
         print("\n".join(type_list))
         type_of_operations = int(input())
         print("Выберите столбец : ")
-        column_number = int(input())
+        col_number = int(input())
         match type_of_operations:
             case 1:
-                for digit in range(len(self.matrix[column_number])):
-                    self.matrix[column_number][digit] = 1
+                for digit in range(len(self.matrix[col_number])):
+                    self.matrix[col_number][digit] = 1
                 print(self.matrix.T)
             case 2:
-                for digit in range(len(self.matrix[column_number])):
-                    self.matrix[column_number][digit] = 0
+                for digit in range(len(self.matrix[col_number])):
+                    self.matrix[col_number][digit] = 0
                 print(self.matrix.T)
             case 3:
-                self.positive_arg(column_number)
+                self.positive_arg(col_number)
             case 4:
-                self.negative_arg(column_number)
+                self.negative_arg(col_number)
 
-    def positive_arg(self, column_number: int) -> None:
-        diagonal_data = self.diagonal
-        if diagonal_data:
-            self.convert_to_straight()
+    def positive_arg(self, col_number: int) -> None:
+        diagonal = self.diagonal
+        if diagonal:
+            self.to_straight()
         print("Входящее значение : ")
-        argument = input()
-        if len(argument) > BIT_SIZE:
-            argument = argument[0:BIT_SIZE]
-        elif len(argument) < BIT_SIZE:
-            argument = argument.zfill(BIT_SIZE)
-        for str_number, digit in enumerate(self.matrix[column_number]):
-            self.matrix[column_number][str_number] = argument[str_number]
-        if diagonal_data:
-            self.convert_to_diagonal(0)
+        arg_input = input()
+        if len(arg_input) > BIT_SIZE:
+            arg_input = arg_input[0:BIT_SIZE]
+        elif len(arg_input) < BIT_SIZE:
+            arg_input = arg_input.zfill(BIT_SIZE)
+        for str_number, digit in enumerate(self.matrix[col_number]):
+            self.matrix[col_number][str_number] = arg_input[str_number]
+        if diagonal:
+            self.to_diagonal(0)
         print(self.matrix.T)
 
-    def negative_arg(self, column_number: int) -> None:
-        diagonal_data = self.diagonal
-        if diagonal_data:
-            self.convert_to_straight(0)
+    def negative_arg(self, col_number: int) -> None:
+        diagonal = self.diagonal
+        if diagonal:
+            self.to_straight(0)
         print("Входящее значение: ")
-        argument = input()
-        if len(argument) > BIT_SIZE:
-            argument = argument[0:BIT_SIZE]
-        elif len(argument) < BIT_SIZE:
-            argument = argument.zfill(BIT_SIZE)
-        argument = argument.replace("1", "2").replace("0", "1").replace("2", "0")
-        for str_number, digit in enumerate(self.matrix[column_number]):
-            self.matrix[column_number][str_number] = argument[str_number]
-        if diagonal_data:
-            self.convert_to_diagonal(0)
+        arg_input = input()
+        if len(arg_input) > BIT_SIZE:
+            arg_input = arg_input[0:BIT_SIZE]
+        elif len(arg_input) < BIT_SIZE:
+            arg_input = arg_input.zfill(BIT_SIZE)
+        arg_input = arg_input.replace("1", "2").replace("0", "1").replace("2", "0")
+        for str_number, digit in enumerate(self.matrix[col_number]):
+            self.matrix[col_number][str_number] = arg_input[str_number]
+        if diagonal:
+            self.to_diagonal(0)
         print(self.matrix.T)
 
     def sum_of_fields(self) -> None:
         print("Введите слово ")
-        example_data = input()[:3]
+        example_input_data = input()[:3]
         if self.diagonal:
-            self.convert_to_straight(0)
+            self.to_straight(0)
         for str_number, string in enumerate(self.matrix):
-            if np.array2string(string, separator='')[1:-1].replace(' ', '')[:3] == example_data:
-                self.matrix[str_number][11:16] = AssociativeMemorySolver.sum_or_diff_nums(
+            if np.array2string(string, separator='')[1:-1].replace(' ', '')[:3] == example_input_data:
+                self.matrix[str_number][11:16] = Associative_memory_solver.sum_or_diff_nums(
                     self.matrix[str_number][3:7], self.matrix[str_number][7:11])
             if self.diagonal:
-                self.convert_to_diagonal(0)
+                self.to_diagonal(0)
         result = self.matrix.T        
         print(result)
 
@@ -199,52 +199,52 @@ class AssociativeMemorySolver:
         print("Строка:")
         word = np.array(list(input().zfill(16)[:16]), dtype=int)
         print(word)
-        num_of_word = int(input())
+        word_num = int(input())
         diagonal_info = self.diagonal
         if self.diagonal:
-            self.convert_to_straight(0)
-        self.matrix[num_of_word] = word
+            self.to_straight(0)
+        self.matrix[word_num] = word
         if diagonal_info:
-            self.convert_to_diagonal(0)
+            self.to_diagonal(0)
         print(self.matrix.T)
 
-    def algorithm_of_accordance(self, matrix_string: List, data: List, str_number: int) -> int:
+    def algorithm_of_accordance(self, m_str: List, data: List, str_number: int) -> int:
 
         tick = pos_of_break = 0
 
         if not self.diagonal:
-            for digit, value_of_digit in enumerate(data):
-                if value_of_digit == str(matrix_string[digit]):
+            for digit, digit in enumerate(data):
+                if digit == str(m_str[digit]):
                     tick += 1
         elif self.diagonal:
-            for digit, value_of_digit in enumerate(data[str_number:]):
+            for digit, digit in enumerate(data[str_number:]):
                 pos_of_break = digit
-                if value_of_digit == str(matrix_string[digit]):
+                if digit == str(m_str[digit]):
                     tick += 1
-            for digit, value_of_digit in enumerate(data[:str_number]):
-                if value_of_digit == str(matrix_string[pos_of_break + digit]):
+            for digit, digit in enumerate(data[:str_number]):
+                if digit == str(m_str[pos_of_break + digit]):
                     tick += 1
         return tick
 
     def read_word(self) -> None:
         print("Введите номер строки:")
-        num_of_word = int(input())
+        word_num = int(input())
         diagonal_info = self.diagonal
         if self.diagonal:
-            self.convert_to_straight(0)
-        print(self.matrix[num_of_word])
+            self.to_straight(0)
+        print(self.matrix[word_num])
         if diagonal_info:
-            self.convert_to_diagonal(0)
+            self.to_diagonal(0)
 
 
-def read_write_operations(ams_solver: AssociativeMemorySolver) -> None:
+def read_and_write(ams_solver: Associative_memory_solver) -> None:
         print('\n'.join(["Выберите задачу:", "0 - Чтение слова", "1 - Запись слова"]))
         if int(input()):
             ams_solver.write_word()
         else:
             ams_solver.read_word()
     
-def choosing_task(ams_solver: AssociativeMemorySolver, matrix) -> None:
+def choosing_task(ams_solver: Associative_memory_solver, matrix) -> None:
 
     task_list = (
         "Выберите действие :",
@@ -263,15 +263,15 @@ def choosing_task(ams_solver: AssociativeMemorySolver, matrix) -> None:
         if task == 1:
             ams_solver.search_pattern()
         elif task == 2:
-            ams_solver.convert_to_diagonal(1)
+            ams_solver.to_diagonal(1)
         elif task == 3:
-            ams_solver.convert_to_straight(1)
+            ams_solver.to_straight(1)
         elif task == 4:
-            ams_solver.logic_operations()
+            ams_solver.log_constants_operations()
         elif task == 5:
             ams_solver.sum_of_fields()
         elif task == 6:
-            read_write_operations(ams_solver)
+            read_and_write(ams_solver)
         else:
             return
             
@@ -279,7 +279,7 @@ def main():
     rows = columns = 16
     matrix = np.random.randint(2, size=(rows, columns))
     address_of_searching = np.random.randint(2, size=rows)
-    ams_solver = AssociativeMemorySolver(matrix, address_of_searching)
+    ams_solver = Associative_memory_solver(matrix, address_of_searching)
     result = matrix.T
     print(result)
     choosing_task(ams_solver, matrix)
